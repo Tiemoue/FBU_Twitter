@@ -6,34 +6,41 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
+
     <ImageView
         android:id="@+id/ivProfileImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
+
     <TextView
         android:id="@+id/tvScreenName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="290dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintStart_toEndOf="@id/ivProfileImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="250dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/tvScreenName"
         tools:text="this is my tweet" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    @+id/ivProfileImage-->
+
+<!--    @+id/tvScreenName-->
+
+<!--    @+id/tvBody-->
