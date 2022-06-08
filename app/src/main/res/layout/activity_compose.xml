@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ComposeActivity">
 
+
     <EditText
         android:id="@+id/etCompose"
         android:layout_width="0dp"
