@@ -8,6 +8,8 @@
 
 
     <EditText
+        app:counterEnabled="true"
+        app:counterMaxLength="144"
         android:id="@+id/etCompose"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
