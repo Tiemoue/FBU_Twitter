@@ -21,14 +21,13 @@ import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.Headers;
 
 public class TimelineActivity extends AppCompatActivity {
@@ -47,12 +46,12 @@ public class TimelineActivity extends AppCompatActivity {
     List<Tweet> tweets;
 
     TweetsAdapter adapter;
-//
-//    Button button;
+
+//    Button composeBtn;
 
     private final int REQUEST_CODE = 20;
 
-    Button composeBtn;
+    FloatingActionButton composeBtn;
 
     private SwipeRefreshLayout swipeContainer;
 
@@ -66,7 +65,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         client = TwitterApp.getRestClient(this);
 
-//        button = findViewById(R.id.button);
+        composeBtn = findViewById(R.id.floatingAction);
 
         rvTweets = findViewById(R.id.rvTweets);
         toolbar = findViewById(R.id.toolbar);
@@ -86,12 +85,14 @@ public class TimelineActivity extends AppCompatActivity {
 
 
 
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onLogoutButton();
-//            }
-//        });
+        composeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
+                finish();
+            }
+        });
 
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -165,10 +166,6 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.miLogout) {
             onLogoutButton();
-        }else if(item.getItemId() == R.id.compose){
-            Intent intent = new Intent(this, ComposeActivity.class);
-            startActivityForResult(intent, REQUEST_CODE);
-            return true;
         }
         return true;
     }
