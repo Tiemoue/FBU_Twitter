@@ -35,6 +35,8 @@ public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
 
+    private EndlessRecyclerViewScrollListener scrollListener;
+
 
     TwitterClient client;
 
@@ -67,18 +69,12 @@ public class TimelineActivity extends AppCompatActivity {
         tweets = new ArrayList<>();
 
         adapter = new TweetsAdapter(this, tweets);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        rvTweets.setLayoutManager(layoutManager);
         rvTweets.setAdapter(adapter);
 
-        populateHomeTimeLine();
-
-
-
-
-
-
+        populateHomeTimeLine(null);
 
 
 
@@ -92,21 +88,30 @@ public class TimelineActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchTimelineAsync(0);
+                tweets.clear();
+                populateHomeTimeLine(null);
             }
         });
 
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,android.R.color.holo_green_light,android.R.color.holo_orange_light,android.R.color.holo_red_light);
 
-
-
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                Tweet lastTweet = tweets.get(tweets.size()-1);
+                String maxId = lastTweet.id;
+                populateHomeTimeLine(maxId);
+            }
+        };
+        rvTweets.addOnScrollListener(scrollListener);
 
     }
 
 
-
-    private void populateHomeTimeLine() {
-        client.getHomeTimeLine(new JsonHttpResponseHandler() {
+    private void populateHomeTimeLine(String maxId) {
+        client.getHomeTimeLine(maxId ,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "onSuccess");
@@ -114,7 +119,7 @@ public class TimelineActivity extends AppCompatActivity {
                 try {
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
-
+                    swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
                     e.printStackTrace();
@@ -127,28 +132,6 @@ public class TimelineActivity extends AppCompatActivity {
                   Log.e(TAG, "onFailure"+ response, throwable);
             }
         });
-    }
-
-
-    public void fetchTimelineAsync(int page) {
-        // Send the network request to fetch the updated data
-        // `client` here is an instance of Android Async HTTP
-        // getHomeTimeline is an example endpoint.
-        client.getHomeTimeLine(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                adapter.clear();
-                adapter.addAll(tweets);
-                populateHomeTimeLine();
-                swipeContainer.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d("DEBUG", "Fetch timeline error: " + response.toString(), throwable);
-            }
-        });
-
     }
 
 
@@ -165,7 +148,6 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -173,11 +155,8 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.compose){
-
             Intent intent = new Intent(this, ComposeActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
-
-
             return true;
         }
 
@@ -195,10 +174,6 @@ public class TimelineActivity extends AppCompatActivity {
            adapter.notifyItemInserted(0);
 
            rvTweets.smoothScrollToPosition(0);
-
-
-
-
 
         }
 
