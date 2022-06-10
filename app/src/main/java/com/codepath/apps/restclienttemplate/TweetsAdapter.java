@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,6 +64,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         ImageView ivTweetImg;
+        ImageButton ibFav;
+        TextView tvFavCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,13 +74,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             ivTweetImg = itemView.findViewById(R.id.ivTweetImg);
+            ibFav = itemView.findViewById(R.id.ibfav);
+            tvFavCount = itemView.findViewById(R.id.tvFavCount);
+
+
 
 
         }
 
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
-            String format = tweet.user.name + " @" + tweet.user.screenName + " " + tweet.date.replace(" ", "");
+            String format = tweet.user.name + " @" + tweet.user.screenName + " • " + tweet.date.replace(" ", "");
             tvScreenName.setText(format);
             Glide.with(context).load(tweet.user.profileImageUrl).transform(new RoundedCorners(90)).into(ivProfileImage);
             if(tweet.imageURL != null){
@@ -87,7 +94,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             else{
                 ivTweetImg.setVisibility(View.GONE);
             }
-
+           ibFav.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   // change the drawable icon
+                   // increment the count
+               }
+           });
         }
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
