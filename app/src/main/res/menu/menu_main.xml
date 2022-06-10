@@ -9,4 +9,9 @@
         android:icon="@android:drawable/ic_menu_edit"
         android:title="compose"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/miLogout"
+        android:icon="@android:drawable/ic_delete"
+        android:title="compose"
+        app:showAsAction="always" />
 </menu>
