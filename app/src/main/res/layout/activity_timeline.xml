@@ -21,33 +21,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white">
 
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/composeImg"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toStartOf="parent"-->
-<!--                tools:srcCompat="@tools:sample/avatars"-->
-<!--                app:layout_constraintTop_toTopOf="parent" -->
-<!--                />-->
-
-<!--&lt;!&ndash;            <Button&ndash;&gt;-->
-<!--&lt;!&ndash;                android:id="@+id/button"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_width="80dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_height="30dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:background="@color/medium_gray"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:text="LOG OUT"&ndash;&gt;-->
-<!--&lt;!&ndash;                app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                app:layout_constraintHorizontal_bias="0.945"&ndash;&gt;-->
-<!--&lt;!&ndash;                app:layout_constraintStart_toStartOf="parent" />&ndash;&gt;-->
-<!--            -->
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_launcher_twitter"
+            />
 
 
     </androidx.appcompat.widget.Toolbar>

@@ -71,6 +71,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivTweetImg;
         ImageButton ibFav;
         TextView tvFavCount;
+        ImageButton ibRetweet;
+        TextView tvRetweetCount;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,6 +84,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivTweetImg = itemView.findViewById(R.id.ivTweetImg);
             ibFav = itemView.findViewById(R.id.ibfav);
             tvFavCount = itemView.findViewById(R.id.tvFavCount);
+            ibRetweet = itemView.findViewById(R.id.ibRetweet);
+            tvRetweetCount = itemView.findViewById(R.id.tvRetweetCount);
 
         }
 
@@ -90,6 +95,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(format);
 
             tvFavCount.setText(String.valueOf(tweet.favCount));
+            tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
 
             if(tweet.isFav){
                 Drawable newImg = context.getDrawable(R.drawable.ic_vector_heart);
@@ -98,6 +104,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }else{
                 Drawable newImg = context.getDrawable(R.drawable.ic_vector_heart_stroke);
                 ibFav.setImageDrawable(newImg);
+            }
+
+            if(tweet.isReweeted){
+                Drawable newImg =  context.getDrawable(R.drawable.ic_vector_retweet);
+                ibRetweet.setImageDrawable(newImg);
+            }else{
+                Drawable newImg =  context.getDrawable(R.drawable.ic_vector_retweet_stroke);
+                ibRetweet.setImageDrawable(newImg);
             }
 
 
@@ -109,6 +123,50 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             else{
                 ivTweetImg.setVisibility(View.GONE);
             }
+
+            ibRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!(tweet.isReweeted)){
+                        Drawable newImg =  context.getDrawable(R.drawable.ic_vector_retweet);
+                        ibRetweet.setImageDrawable(newImg);
+                        tweet.isReweeted = true;
+                        tweet.retweetCount ++;
+                        tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
+                        TwitterApp.getRestClient(context).reTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+
+                            }
+                        });
+                    }else{
+                        Drawable newImg =  context.getDrawable(R.drawable.ic_vector_retweet_stroke);
+                        ibRetweet.setImageDrawable(newImg);
+                        tweet.isReweeted = false;
+                        tweet.retweetCount --;
+                        tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
+                        TwitterApp.getRestClient(context).unReTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+
+                            }
+                        });
+                    }
+                }
+            });
+
+
+
            ibFav.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
