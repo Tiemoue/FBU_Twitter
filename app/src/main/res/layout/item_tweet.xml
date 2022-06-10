@@ -80,16 +80,16 @@
         app:layout_constraintLeft_toRightOf="@id/ibfav"
         app:layout_constraintTop_toTopOf="@id/ibfav"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageButton
         android:padding="5dp"
         android:id="@+id/ibfav"
         android:layout_width="30dp"
+        android:background="#222"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_vector_heart_stroke"
        app:layout_constraintTop_toBottomOf="@id/ivTweetImg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivProfileImage"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!--    @+id/ivProfileImage-->

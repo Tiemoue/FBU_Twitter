@@ -23,6 +23,10 @@ public class Tweet {
     public String imageURL;
     public String date;
     public String id;
+    public  boolean isFav;
+    public boolean isReweeted;
+    public  int favCount;
+    public int retweetCount;
 
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
@@ -35,6 +39,10 @@ public class Tweet {
 
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
+        if(jsonObject.has("retweeted_status")){
+            return null;
+        }
+
         Tweet tweet = new Tweet();
         if(jsonObject.has("full_text")) {
             tweet.body = jsonObject.getString("full_text");
@@ -49,6 +57,10 @@ public class Tweet {
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.date = tweet.getRelativeTimeAgo(jsonObject.getString("created_at"));
         tweet.id = jsonObject.getString("id_str");
+        tweet.isFav =  jsonObject.getBoolean("favorited");
+        tweet.isReweeted =  jsonObject.getBoolean("retweeted");
+        tweet.favCount =  jsonObject.getInt("favorite_count");
+        tweet.retweetCount =  jsonObject.getInt("retweet_count");
         return tweet;
     }
 
@@ -82,25 +94,17 @@ public class Tweet {
             Log.i("here", "getRelativeTimeAgo failed");
             e.printStackTrace();
         }
-
         return "";
     }
-
-
-
-
-
-
-
-
-
-
 
 
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
-            tweets.add(fromJson(jsonArray.getJSONObject(i)));
+            Tweet newTweet = fromJson(jsonArray.getJSONObject(i));
+            if (newTweet != null) {
+                tweets.add(newTweet);
+            }
         }
 
         return tweets;

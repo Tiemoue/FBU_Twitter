@@ -1,22 +1,28 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.appcompat.widget.AppCompatImageButton;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import java.util.List;
+
+import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
@@ -37,7 +43,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         tweets.addAll(list);
         notifyDataSetChanged();
     }
-
 
 
     @NonNull
@@ -77,15 +82,25 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ibFav = itemView.findViewById(R.id.ibfav);
             tvFavCount = itemView.findViewById(R.id.tvFavCount);
 
-
-
-
         }
 
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             String format = tweet.user.name + " @" + tweet.user.screenName + " • " + tweet.date.replace(" ", "");
             tvScreenName.setText(format);
+
+            tvFavCount.setText(String.valueOf(tweet.favCount));
+
+            if(tweet.isFav){
+                Drawable newImg = context.getDrawable(R.drawable.ic_vector_heart);
+                ibFav.setImageDrawable(newImg);
+
+            }else{
+                Drawable newImg = context.getDrawable(R.drawable.ic_vector_heart_stroke);
+                ibFav.setImageDrawable(newImg);
+            }
+
+
             Glide.with(context).load(tweet.user.profileImageUrl).transform(new RoundedCorners(90)).into(ivProfileImage);
             if(tweet.imageURL != null){
                 Glide.with(context).load(tweet.imageURL).override(500,350).transform(new RoundedCorners(20)).into(ivTweetImg);
@@ -97,6 +112,41 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
            ibFav.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
+                   if(!(tweet.isFav)){
+                       Drawable newImg = context.getDrawable(R.drawable.ic_vector_heart);
+                       ibFav.setImageDrawable(newImg);
+                       tweet.isFav = true;
+                       tweet.favCount ++;
+                       tvFavCount.setText(String.valueOf(tweet.favCount));
+                       TwitterApp.getRestClient(context).favoriteTweet(tweet.id, new JsonHttpResponseHandler() {
+                           @Override
+                           public void onSuccess(int statusCode, Headers headers, JSON json) {
+                               Log.i("adapter", "this tweet has been fav");
+                           }
+
+                           @Override
+                           public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                               Log.e("adapter", "this failed");
+                           }
+                       });
+                   }else{
+                       Drawable newImg = context.getDrawable(R.drawable.ic_vector_heart_stroke);
+                       ibFav.setImageDrawable(newImg);
+                       tweet.isFav = false;
+                       tweet.favCount --;
+                       tvFavCount.setText(String.valueOf(tweet.favCount));
+                       TwitterApp.getRestClient(context).unFavoriteTweet(tweet.id, new JsonHttpResponseHandler() {
+                           @Override
+                           public void onSuccess(int statusCode, Headers headers, JSON json) {
+                               Log.i("adapter", "this has been unfav");
+                           }
+
+                           @Override
+                           public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+
+                           }
+                       });
+                   }
                    // change the drawable icon
                    // increment the count
                }
@@ -104,7 +154,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-
 
     }
 
