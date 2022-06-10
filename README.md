@@ -53,7 +53,8 @@ GIF created with [Kap](https://getkap.co/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Describe any challenges encountered while building the app:
+
 adding endless scrolling 
 implementing toolbar
 
