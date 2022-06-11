@@ -3,10 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-
     <item
         android:id="@+id/miLogout"
-        android:icon="@android:drawable/ic_delete"
+        android:icon="@drawable/ic_vector_close"
         android:title="compose"
         app:showAsAction="always" />
 </menu>

@@ -32,29 +32,17 @@ import okhttp3.Headers;
 
 public class TimelineActivity extends AppCompatActivity {
 
-
     public static final String TAG = "TimelineActivity";
-
     private EndlessRecyclerViewScrollListener scrollListener;
-
-
-    TwitterClient client;
-
-    RecyclerView rvTweets;
-    Toolbar toolbar;
-
-    List<Tweet> tweets;
-
-    TweetsAdapter adapter;
-
-//    Button composeBtn;
-
-    private final int REQUEST_CODE = 20;
-
-    FloatingActionButton composeBtn;
-
     private SwipeRefreshLayout swipeContainer;
 
+    TwitterClient client;
+    RecyclerView rvTweets;
+    Toolbar toolbar;
+    List<Tweet> tweets;
+    TweetsAdapter adapter;
+    private final int REQUEST_CODE = 20;
+    FloatingActionButton composeBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,28 +50,17 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-
         client = TwitterApp.getRestClient(this);
-
         composeBtn = findViewById(R.id.floatingAction);
-
         rvTweets = findViewById(R.id.rvTweets);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-
         tweets = new ArrayList<>();
-
         adapter = new TweetsAdapter(this, tweets);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-
         rvTweets.setLayoutManager(layoutManager);
         rvTweets.setAdapter(adapter);
-
         populateHomeTimeLine(null);
-
-
 
         composeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +70,6 @@ public class TimelineActivity extends AppCompatActivity {
                 finish();
             }
         });
-
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -116,9 +92,7 @@ public class TimelineActivity extends AppCompatActivity {
             }
         };
         rvTweets.addOnScrollListener(scrollListener);
-
     }
-
 
     private void populateHomeTimeLine(String maxId) {
         client.getHomeTimeLine(maxId ,new JsonHttpResponseHandler() {
@@ -134,7 +108,6 @@ public class TimelineActivity extends AppCompatActivity {
                     Log.e(TAG, "Json exception", e);
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -144,11 +117,9 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-
     void onLogoutButton() {
         // forget who's logged in
         TwitterApp.getRestClient(this).clearAccessToken();
-
         // navigate backwards to Login screen
         Intent i = new Intent(this, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
@@ -170,21 +141,14 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-
            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-
            tweets.add(0, tweet);
-
            adapter.notifyItemInserted(0);
-
            rvTweets.smoothScrollToPosition(0);
-
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

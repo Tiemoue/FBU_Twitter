@@ -72,7 +72,6 @@ public class TwitterClient extends OAuthBaseClient {
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("id", tweetId);
-
 		client.post(apiUrl, params, "", handler);
 	}
 
@@ -81,7 +80,6 @@ public class TwitterClient extends OAuthBaseClient {
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("id", tweetId);
-
 		client.post(apiUrl, params, "", handler);
 	}
 
@@ -90,7 +88,6 @@ public class TwitterClient extends OAuthBaseClient {
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("id", tweetId);
-
 		client.post(apiUrl, params, "", handler);
 	}
 
@@ -99,7 +96,6 @@ public class TwitterClient extends OAuthBaseClient {
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("id", tweetId);
-
 		client.post(apiUrl, params, "", handler);
 	}
 

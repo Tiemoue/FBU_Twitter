@@ -21,11 +21,10 @@ import okhttp3.Headers;
 
 public class ComposeActivity extends AppCompatActivity {
 
+    public static final String TAG = ".ComposeActivity";
     private static final int MAX_TWEET_LENGTH = 140 ;
     EditText etCompose;
     Button btnTweet;
-
-    public static final String TAG = ".ComposeActivity";
 
     TwitterClient client;
 
@@ -35,26 +34,21 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
 
         client = TwitterApp.getRestClient(this);
-
         etCompose = findViewById(R.id.etCompose);
         btnTweet = findViewById(R.id.btnTweet);
-
 
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tweetContent = etCompose.getText().toString();
-
                 if (tweetContent.isEmpty()) {
                     Toast.makeText(ComposeActivity.this, "Sorry, your tweet cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
-
                 }
                 if (tweetContent.length()>MAX_TWEET_LENGTH){
                     Toast.makeText(ComposeActivity.this, "Sorry, your tweet is too long", Toast.LENGTH_SHORT).show();
                 return;}
                 Toast.makeText(ComposeActivity.this, "Sent", Toast.LENGTH_SHORT).show();
-
                 client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {

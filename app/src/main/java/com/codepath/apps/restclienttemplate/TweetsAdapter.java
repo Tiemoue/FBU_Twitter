@@ -44,7 +44,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -74,7 +73,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageButton ibRetweet;
         TextView tvRetweetCount;
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -93,7 +91,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody.setText(tweet.body);
             String format = tweet.user.name + " @" + tweet.user.screenName + " • " + tweet.date.replace(" ", "");
             tvScreenName.setText(format);
-
             tvFavCount.setText(String.valueOf(tweet.favCount));
             tvRetweetCount.setText(String.valueOf(tweet.retweetCount));
 
@@ -113,7 +110,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 Drawable newImg =  context.getDrawable(R.drawable.ic_vector_retweet_stroke);
                 ibRetweet.setImageDrawable(newImg);
             }
-
 
             Glide.with(context).load(tweet.user.profileImageUrl).transform(new RoundedCorners(90)).into(ivProfileImage);
             if(tweet.imageURL != null){
@@ -165,8 +161,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 }
             });
 
-
-
            ibFav.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
@@ -205,16 +199,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                            }
                        });
                    }
-                   // change the drawable icon
-                   // increment the count
+
                }
            });
         }
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
 
     }
-
-
 
 }

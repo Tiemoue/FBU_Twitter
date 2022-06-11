@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 @Parcel
 public class Tweet {
 
@@ -33,16 +32,12 @@ public class Tweet {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
-
-
     public Tweet(){}
-
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         if(jsonObject.has("retweeted_status")){
             return null;
         }
-
         Tweet tweet = new Tweet();
         if(jsonObject.has("full_text")) {
             tweet.body = jsonObject.getString("full_text");
@@ -63,7 +58,6 @@ public class Tweet {
         tweet.retweetCount =  jsonObject.getInt("retweet_count");
         return tweet;
     }
-
 
     public String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -96,7 +90,6 @@ public class Tweet {
         }
         return "";
     }
-
 
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();

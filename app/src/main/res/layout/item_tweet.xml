@@ -7,7 +7,6 @@
     android:layout_marginBottom="5dp"
     android:layout_height="wrap_content">
 
-
     <ImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="70dp"
@@ -69,7 +68,6 @@
         app:layout_constraintVertical_bias="0.9"
         tools:srcCompat="@tools:sample/avatars" />
 
-
     <TextView
         android:id="@+id/tvFavCount"
         android:layout_width="wrap_content"
@@ -121,8 +119,3 @@
         app:layout_constraintTop_toTopOf="@id/ibRetweet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--    @+id/ivProfileImage-->
-
-<!--    @+id/tvScreenName-->
-
-<!--    @+id/tvBody-->

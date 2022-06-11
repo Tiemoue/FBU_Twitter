@@ -10,9 +10,6 @@
     android:background="@color/twitter_blue"
     tools:context=".LoginActivity" >
 
-
-
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
